@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 
 <!DOCTYPE html>
 
@@ -49,14 +50,14 @@
                             <li><a href="/SecondChance/ViewItems">VIEW ITEMS</a>
                             </li>
 
-                            <li><a href="#price-sec">NEW ITEM</a>
-                            </li>
-                            
-                            <li><a href="#contact-sec">FAVOURITE ITEMS</a>
-                            </li>
+                            <c:if test="${sessionScope.email != null}">
+                                <li><a href="/SecondChance/NewItem.jsp">NEW ITEM</a></li>
+                                <li><a href="#contact-sec">FAVOURITE ITEMS</a></li>
+                                </c:if>
 
-                            <li><a href="#contact-sec">SIGN UP</a>
-                            </li>
+                            <c:if test="${sessionScope.email == null}">    
+                                <li><a href="#contact-sec">SIGN UP</a></li>
+                                </c:if>  
 
                         </ul>
                     </div>
@@ -77,44 +78,47 @@
                         <div class="head-last">
 
                             <img id="SecondHandImg" src="images/Secondhand.png" alt="Second Hand">
-                        
+
                         </div>
 
                     </div>
-                    <div class="col-md-3 col-sm-3">
-                        <div class="div-trans text-center">
-                            <h3>Log in</h3>
-                            <form>
+                    <c:if test="${sessionScope.email == null}">
+                        <div class="col-md-3 col-sm-3">
+                            <div class="div-trans text-center">
+                                <h3>Log in</h3>
+                                <form>
 
-                                <div class="col-md-12 col-sm-12">
-                                    <!-- <div class="form-group">
-                                        <input type="text" class="form-control" required="required" placeholder="Name">
-                                    </div> -->
-                                </div>
-                                <div class="col-md-12 col-sm-12">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" required="required" placeholder="Your e-mail">
+                                    <div class="col-md-12 col-sm-12">
+                                        <!-- <div class="form-group">
+                                            <input type="text" class="form-control" required="required" placeholder="Name">
+                                        </div> -->
                                     </div>
-                                </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" required="required" placeholder="Your e-mail">
+                                        </div>
+                                    </div>
 
 
-                                <div class="col-md-12 col-sm-12">
-                                    <div class="form-group">
-                                        <input type="password" name="pass" id="Textarea1" required="required" class="form-control" placeholder="Your password">
-                                    </div>
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-success">Enter site</button>
-                                    </div>
-                                    <div class="form-group">
-                                        <a href="#">Forget your password?</a>
-                                    </div>
-                                    
-                                </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="form-group">
+                                            <input type="password" name="pass" id="Textarea1" required="required" class="form-control" placeholder="Your password">
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-success">Enter site</button>
+                                        </div>
+                                        <div class="form-group">
+                                            <a href="#">Forget your password?</a>
+                                        </div>
 
-                            </form>
+                                    </div>
+
+                                </form>
+                            </div>
+
                         </div>
+                    </c:if>
 
-                    </div>
 
                 </div>
             </div>
