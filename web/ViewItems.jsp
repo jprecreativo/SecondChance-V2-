@@ -95,17 +95,17 @@
                             Price:
                             <select id="priceSelect" name="priceSelect" size="1">
                                 <option>ALL</option>
-                                <option>0€ - 10€</option>
-                                <option>10€ - 20€</option>
-                                <option>20€ - 30€</option>
-                                <option>30€ - 40€</option>
-                                <option>40€ - 50€</option>
-                                <option>50€ - 100€</option>
-                                <option>100€ - 500€</option>
-                                <option>500€ - 1000€</option>
-                                <option>1.000€ - 5.000€</option>
-                                <option>5.000 - 10.000€</option>
-                                <option>10.000€ or more</option>
+                                <option>0 - 10</option>
+                                <option>10 - 20</option>
+                                <option>20 - 30</option>
+                                <option>30 - 40</option>
+                                <option>40 - 50</option>
+                                <option>50 - 100</option>
+                                <option>100 - 500</option>
+                                <option>500 - 1000</option>
+                                <option>1.000 - 5.000</option>
+                                <option>5.000 - 10.000</option>
+                                <option>10.000 or more</option>
                             </select>
                             &nbsp;
                             Zip code:

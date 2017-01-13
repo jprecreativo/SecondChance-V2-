@@ -13,7 +13,10 @@ import javax.validation.constraints.NotNull;
 @NamedQueries
 ( {
     @NamedQuery(name="ITEMS.findAll", query="SELECT i FROM ITEMS i"),
-    @NamedQuery(name="ITEMS.findByCategory", query="SELECT i FROM ITEMS i WHERE i.category = :category")
+    @NamedQuery(name="ITEMS.findByCategory", query="SELECT i FROM ITEMS i WHERE i.category = :category"),
+    @NamedQuery(name="ITEMS.findByPrice", query="SELECT i FROM ITEMS i WHERE :priceLow <= i.price AND i.price <= :priceHigh"),
+    @NamedQuery(name="ITEMS.findByZC", query="SELECT i FROM ITEMS i WHERE i.ZC = :ZC"),
+    @NamedQuery(name="ITEMS.findByAll", query="SELECT i FROM ITEMS i WHERE i.ZC = :ZC AND i.category = :category AND :priceLow <= i.price AND i.price <= :priceHigh")
 } )
 public class ITEMS implements Serializable {
 

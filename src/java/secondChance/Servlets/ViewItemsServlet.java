@@ -3,12 +3,12 @@ package secondChance.Servlets;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -52,11 +52,62 @@ public class ViewItemsServlet extends HttpServlet
             String price = request.getParameter(param.nextElement());
             String zipCode = request.getParameter(param.nextElement());
             
-            query = em.createNamedQuery("ITEMS.findByCategory", ITEMS.class).setParameter("category", cat);
-            li = query.getResultList();
-            request.setAttribute("items", li);
-            RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/ItemsTable.jsp");
-            rd.forward(request, response);
+            if("ALL".equals(cat) && "ALL".equals(price) && "".equals(zipCode))
+            {
+                query = em.createNamedQuery("ITEMS.findAll", ITEMS.class);
+                li = query.getResultList();
+                request.setAttribute("items", li);
+                RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/ItemsTable.jsp");
+                rd.forward(request, response);
+            }
+            
+            else if(!"ALL".equals(cat) && "ALL".equals(price) && "".equals(zipCode))
+            {
+                query = em.createNamedQuery("ITEMS.findByCategory", ITEMS.class).setParameter("category", cat);
+                li = query.getResultList();
+                request.setAttribute("items", li);
+                RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/ItemsTable.jsp");
+                rd.forward(request, response);
+            }
+            
+            else if("ALL".equals(cat) && !"ALL".equals(price) && "".equals(zipCode))
+            {
+                StringTokenizer priceToken = new StringTokenizer(price, "-");
+                double priceLow = Double.parseDouble(priceToken.nextToken());
+                double priceHigh = Double.parseDouble(priceToken.nextToken());
+                
+                query = em.createNamedQuery("ITEMS.findByPrice", ITEMS.class).setParameter("priceLow", priceLow);
+                query.setParameter("priceHigh", priceHigh);
+                li = query.getResultList();
+                request.setAttribute("items", li);
+                RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/ItemsTable.jsp");
+                rd.forward(request, response);
+            }
+            
+            else if("ALL".equals(cat) && "ALL".equals(price) && !"".equals(zipCode))
+            {
+                query = em.createNamedQuery("ITEMS.findByZC", ITEMS.class).setParameter("ZC", Integer.parseInt(zipCode));
+                li = query.getResultList();
+                request.setAttribute("items", li);
+                RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/ItemsTable.jsp");
+                rd.forward(request, response);
+            }
+            
+            else if(!"ALL".equals(cat) && !"ALL".equals(price) && !"".equals(zipCode))
+            {
+                StringTokenizer priceToken = new StringTokenizer(price, "-");
+                double priceLow = Double.parseDouble(priceToken.nextToken());
+                double priceHigh = Double.parseDouble(priceToken.nextToken());
+                
+                query = em.createNamedQuery("ITEMS.findByAll", ITEMS.class).setParameter("ZC", Integer.parseInt(zipCode));
+                query.setParameter("category", cat);
+                query.setParameter("priceLow", priceLow);
+                query.setParameter("priceHigh", priceHigh);
+                li = query.getResultList();
+                request.setAttribute("items", li);
+                RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/ItemsTable.jsp");
+                rd.forward(request, response);
+            }
         }
         
         else
