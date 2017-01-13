@@ -4,11 +4,10 @@ import java.io.IOException;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -42,70 +41,130 @@ public class ViewItemsServlet extends HttpServlet
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
     {
-        Enumeration<String> param = request.getParameterNames();
+        Enumeration<String> params = request.getParameterNames();
         TypedQuery<ITEMS> query;
+        RequestDispatcher rd;
         List<ITEMS> li;
+        Query q;
         
-        if(param.hasMoreElements())   // Request has parameters.
+        if(params.hasMoreElements())   // Request has parameters.
         {
-            String cat = request.getParameter(param.nextElement());
-            String price = request.getParameter(param.nextElement());
-            String zipCode = request.getParameter(param.nextElement());
-            
-            if("ALL".equals(cat) && "ALL".equals(price) && "".equals(zipCode))
+            if(filtersParamsAreCorrect(request))   // Parameters are correct.
             {
-                query = em.createNamedQuery("ITEMS.findAll", ITEMS.class);
-                li = query.getResultList();
-                request.setAttribute("items", li);
-                RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/ItemsTable.jsp");
-                rd.forward(request, response);
+                String cat = request.getParameter(params.nextElement());
+                String price = request.getParameter(params.nextElement());
+                String zipCode = request.getParameter(params.nextElement());
+
+                if("ALL".equals(cat) && "ALL".equals(price) && "".equals(zipCode))   // No filter.
+                {
+                    query = em.createNamedQuery("ITEMS.findAll", ITEMS.class);
+                    li = query.getResultList();
+                    request.setAttribute("items", li);
+                    rd = request.getRequestDispatcher("/WEB-INF/ItemsTable.jsp");
+                    rd.forward(request, response);
+                }
+
+                else if(!"ALL".equals(cat) && "ALL".equals(price) && "".equals(zipCode))   // Filter by category.
+                {
+                    query = em.createNamedQuery("ITEMS.findByCategory", ITEMS.class).setParameter("category", cat);
+                    li = query.getResultList();
+                    request.setAttribute("items", li);
+                    rd = request.getRequestDispatcher("/WEB-INF/ItemsTable.jsp");
+                    rd.forward(request, response);
+                }
+
+                else if("ALL".equals(cat) && !"ALL".equals(price) && "".equals(zipCode))   // Filter by price.
+                {
+                    StringTokenizer priceToken = new StringTokenizer(price, "-");
+                    double priceLow = Double.parseDouble(priceToken.nextToken());
+                    double priceHigh = Double.parseDouble(priceToken.nextToken());
+
+                    query = em.createNamedQuery("ITEMS.findByPrice", ITEMS.class).setParameter("priceLow", priceLow);
+                    query.setParameter("priceHigh", priceHigh);
+                    li = query.getResultList();
+                    request.setAttribute("items", li);
+                    rd = request.getRequestDispatcher("/WEB-INF/ItemsTable.jsp");
+                    rd.forward(request, response);
+                }
+
+                else if("ALL".equals(cat) && "ALL".equals(price) && !"".equals(zipCode))   // Filter by zip code.
+                {
+                    query = em.createNamedQuery("ITEMS.findByZC", ITEMS.class).setParameter("ZC", Integer.parseInt(zipCode));
+                    li = query.getResultList();
+                    request.setAttribute("items", li);
+                    rd = request.getRequestDispatcher("/WEB-INF/ItemsTable.jsp");
+                    rd.forward(request, response);
+                }
+
+                else if(!"ALL".equals(cat) && !"ALL".equals(price) && !"".equals(zipCode))   // Filter by all.
+                {
+                    StringTokenizer priceToken = new StringTokenizer(price, "-");
+                    double priceLow = Double.parseDouble(priceToken.nextToken());
+                    double priceHigh = Double.parseDouble(priceToken.nextToken());
+
+                    query = em.createNamedQuery("ITEMS.findByAll", ITEMS.class).setParameter("ZC", Integer.parseInt(zipCode));
+                    query.setParameter("category", cat);
+                    query.setParameter("priceLow", priceLow);
+                    query.setParameter("priceHigh", priceHigh);
+                    li = query.getResultList();
+                    request.setAttribute("items", li);
+                    rd = request.getRequestDispatcher("/WEB-INF/ItemsTable.jsp");
+                    rd.forward(request, response);
+                }
+
+                else if(!"ALL".equals(cat) && !"ALL".equals(price) && "".equals(zipCode))   // Filter by category and price.
+                {
+                    StringTokenizer priceToken = new StringTokenizer(price, "-");
+                    double priceLow = Double.parseDouble(priceToken.nextToken());
+                    double priceHigh = Double.parseDouble(priceToken.nextToken());
+
+                    String queryString = "SELECT i FROM ITEMS i WHERE i.category = :category";
+                    queryString += " AND :priceLow <= i.price AND i.price <= :priceHigh";
+                    q = em.createQuery(queryString);
+                    q.setParameter("category", cat);
+                    q.setParameter("priceLow", priceLow);
+                    q.setParameter("priceHigh", priceHigh);
+                    li = q.getResultList();
+                    request.setAttribute("items", li);
+                    rd = request.getRequestDispatcher("/WEB-INF/ItemsTable.jsp");
+                    rd.forward(request, response);
+                }
+
+                else if(!"ALL".equals(cat) && "ALL".equals(price) && !"".equals(zipCode))   // Filter by category and zip code.
+                {
+                    String queryString = "SELECT i FROM ITEMS i WHERE i.category = :category";
+                    queryString += " AND i.ZC = :ZC";
+                    q = em.createQuery(queryString);
+                    q.setParameter("category", cat);
+                    q.setParameter("ZC", Integer.parseInt(zipCode));
+                    li = q.getResultList();
+                    request.setAttribute("items", li);
+                    rd = request.getRequestDispatcher("/WEB-INF/ItemsTable.jsp");
+                    rd.forward(request, response);
+                }
+
+                else if("ALL".equals(cat) && !"ALL".equals(price) && !"".equals(zipCode))   // Filter by price and zip code.
+                {
+                    StringTokenizer priceToken = new StringTokenizer(price, "-");
+                    double priceLow = Double.parseDouble(priceToken.nextToken());
+                    double priceHigh = Double.parseDouble(priceToken.nextToken());
+
+                    String queryString = "SELECT i FROM ITEMS i WHERE i.ZC = :ZC";
+                    queryString += " AND :priceLow <= i.price AND i.price <= :priceHigh";
+                    q = em.createQuery(queryString);
+                    q.setParameter("priceLow", priceLow);
+                    q.setParameter("priceHigh", priceHigh);
+                    q.setParameter("ZC", Integer.parseInt(zipCode));
+                    li = q.getResultList();
+                    request.setAttribute("items", li);
+                    rd = request.getRequestDispatcher("/WEB-INF/ItemsTable.jsp");
+                    rd.forward(request, response);
+                }
             }
             
-            else if(!"ALL".equals(cat) && "ALL".equals(price) && "".equals(zipCode))
+            else   // There was errors in parameters.
             {
-                query = em.createNamedQuery("ITEMS.findByCategory", ITEMS.class).setParameter("category", cat);
-                li = query.getResultList();
-                request.setAttribute("items", li);
-                RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/ItemsTable.jsp");
-                rd.forward(request, response);
-            }
-            
-            else if("ALL".equals(cat) && !"ALL".equals(price) && "".equals(zipCode))
-            {
-                StringTokenizer priceToken = new StringTokenizer(price, "-");
-                double priceLow = Double.parseDouble(priceToken.nextToken());
-                double priceHigh = Double.parseDouble(priceToken.nextToken());
-                
-                query = em.createNamedQuery("ITEMS.findByPrice", ITEMS.class).setParameter("priceLow", priceLow);
-                query.setParameter("priceHigh", priceHigh);
-                li = query.getResultList();
-                request.setAttribute("items", li);
-                RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/ItemsTable.jsp");
-                rd.forward(request, response);
-            }
-            
-            else if("ALL".equals(cat) && "ALL".equals(price) && !"".equals(zipCode))
-            {
-                query = em.createNamedQuery("ITEMS.findByZC", ITEMS.class).setParameter("ZC", Integer.parseInt(zipCode));
-                li = query.getResultList();
-                request.setAttribute("items", li);
-                RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/ItemsTable.jsp");
-                rd.forward(request, response);
-            }
-            
-            else if(!"ALL".equals(cat) && !"ALL".equals(price) && !"".equals(zipCode))
-            {
-                StringTokenizer priceToken = new StringTokenizer(price, "-");
-                double priceLow = Double.parseDouble(priceToken.nextToken());
-                double priceHigh = Double.parseDouble(priceToken.nextToken());
-                
-                query = em.createNamedQuery("ITEMS.findByAll", ITEMS.class).setParameter("ZC", Integer.parseInt(zipCode));
-                query.setParameter("category", cat);
-                query.setParameter("priceLow", priceLow);
-                query.setParameter("priceHigh", priceHigh);
-                li = query.getResultList();
-                request.setAttribute("items", li);
-                RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/ItemsTable.jsp");
+                rd = request.getRequestDispatcher("/WEB-INF/ErrorViewItems.jsp");
                 rd.forward(request, response);
             }
         }
@@ -115,9 +174,14 @@ public class ViewItemsServlet extends HttpServlet
             query = em.createNamedQuery("ITEMS.findAll", ITEMS.class);
             li = query.getResultList();
             request.setAttribute("items", li);
-            RequestDispatcher rd = request.getRequestDispatcher("/ViewItems.jsp");
+            rd = request.getRequestDispatcher("/ViewItems.jsp");
             rd.forward(request, response);
         }
+    }
+    
+    boolean filtersParamsAreCorrect(HttpServletRequest request)   // BAD.
+    {
+        return !"XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -160,7 +224,7 @@ public class ViewItemsServlet extends HttpServlet
         return "Short description";
     }// </editor-fold>
 
-    public void persist(Object object) {
+    /* public void persist(Object object) {
         try {
             utx.begin();
             em.persist(object);
@@ -169,5 +233,5 @@ public class ViewItemsServlet extends HttpServlet
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
             throw new RuntimeException(e);
         }
-    }
+    } */
 }

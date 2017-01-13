@@ -103,9 +103,9 @@
                                 <option>50 - 100</option>
                                 <option>100 - 500</option>
                                 <option>500 - 1000</option>
-                                <option>1.000 - 5.000</option>
-                                <option>5.000 - 10.000</option>
-                                <option>10.000 or more</option>
+                                <option>1000 - 5000</option>
+                                <option>5000 - 10000</option>
+                                <option>10000 - 100000</option>
                             </select>
                             &nbsp;
                             Zip code:
