@@ -56,7 +56,7 @@
                                 </c:if>
 
                             <c:if test="${sessionScope.email == null}">    
-                                <li><a href="#contact-sec">SIGN UP</a></li>
+                                <li><a href="/SecondChance/SignUp.jsp">SIGN UP</a></li>
                                 </c:if>  
 
                         </ul>
@@ -79,33 +79,46 @@
                         <span class="head-sub-main">Lorem ipsum dolor</span> -->
                         <div class="head-last">
                              
-                           <div class="div-trans text-center">
+                           <div class="div-trans-sign-up text-center">
                            
                                 <h3>Register</h3>
                                 <form>
-
-                                    <div class="col-md-12 col-sm-12">
-                                        <!-- <div class="form-group">
-                                            <input type="text" class="form-control" required="required" placeholder="Name">
-                                        </div> -->
-                                    </div>
                                     <div class="col-md-12 col-sm-12">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" required="required" placeholder="Your e-mail">
-                                        </div>
-                                    </div>
-
-
-                                    <div class="col-md-12 col-sm-12">
-                                        <div class="form-group">
-                                            <input type="password" name="pass" id="Textarea1" required="required" class="form-control" placeholder="Your password">
+                                            <input type="email" class="form-control" required="required" placeholder="Your e-mail (required)">
                                         </div>
                                         <div class="form-group">
-                                            <button type="submit" class="btn btn-success">Enter site</button>
+                                            <input type="password" name="pass" id="pass" required="required" class="form-control" placeholder="Your password (required)">
                                         </div>
                                         <div class="form-group">
-                                            <a href="#">Forget your password?</a>
+                                            <input type="password" name="passConfimation" id="passConfirmation" required="required" class="form-control" placeholder="Repeat password (required)">
                                         </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="Full name here (required)">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="Yout address">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" pattern="\d" placeholder="Zip or postal code here">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="Your Facebook user name">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" pattern="^@[a-zA-Z0-9]+$" placeholder="Your '@' in Twitter">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" pattern="[0-9]{9}" placeholder="Phone number">
+                                        </div>
+                                        <div class="form-group">
+                                            <img src="images/Captchas/Captcha2.png" alt="Captcha"/> &nbsp;
+                                            <input type="text" required="required" id="captchaText" placeholder="Enter here captcha characters">
+                                        </div> <br>
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-success">Register now!</button>
+                                        </div>
+                                        
 
                                     </div>
 

@@ -56,7 +56,7 @@
                             </c:if>
 
                             <c:if test="${sessionScope.email == null}">    
-                                <li><a href="#contact-sec">SIGN UP</a></li>
+                                <li><a href="/SecondChance/SignUp.jsp">SIGN UP</a></li>
                             </c:if>    
                         </ul>
                     </div>

@@ -267,6 +267,25 @@ color: #fff;
 border-radius: 5px;
 margin-bottom:15px;
 }
+
+#captchaText
+{
+    width: 26%;
+    color: black;
+}
+
+.div-trans-sign-up {
+    padding:5px;
+    background-color: rgba(0, 255, 41, 0.30);
+min-height: 650px;
+margin-top: 90px;
+color: #fff;
+-webkit-border-radius: 5px;
+-moz-border-radius: 5px;
+border-radius: 5px;
+margin-bottom:15px;
+}
+
     .div-trans .form-control {
         background-color: rgba(255, 255, 255, 0);
     }
