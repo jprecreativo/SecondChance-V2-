@@ -82,28 +82,28 @@
                            <div class="div-trans-sign-up text-center">
                            
                                 <h3>Register</h3>
-                                <form>
+                                <form onsubmit="return validate();">
                                     <div class="col-md-12 col-sm-12">
                                         <div class="form-group">
                                             <input type="email" class="form-control" required="required" placeholder="Your e-mail (required)">
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" name="pass" id="pass" required="required" class="form-control" placeholder="Your password (required)">
+                                            <input type="password" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" name="pass" id="pass" required="required" class="form-control" placeholder="Your password (required)">
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" name="passConfimation" id="passConfirmation" required="required" class="form-control" placeholder="Repeat password (required)">
+                                            <input type="password" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" name="passConfimation" id="passConfirmation" required="required" class="form-control" placeholder="Repeat password (required)">
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="Full name here (required)">
+                                            <input type="text" class="form-control" placeholder="Full name here">
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="Yout address">
+                                            <input type="text" class="form-control" placeholder="Your address">
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" pattern="\d" placeholder="Zip or postal code here">
+                                            <input type="text" class="form-control" pattern="[0-9]{*}" placeholder="Zip or postal code here">
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="Your Facebook user name">
+                                            <input type="text" pattern="^[a-z\d\.]{5,}$" class="form-control" placeholder="Your Facebook user name">
                                         </div>
                                         <div class="form-group">
                                             <input type="text" class="form-control" pattern="^@[a-zA-Z0-9]+$" placeholder="Your '@' in Twitter">
@@ -112,8 +112,9 @@
                                             <input type="text" class="form-control" pattern="[0-9]{9}" placeholder="Phone number">
                                         </div>
                                         <div class="form-group">
-                                            <img src="images/Captchas/Captcha2.png" alt="Captcha"/> &nbsp;
-                                            <input type="text" required="required" id="captchaText" placeholder="Enter here captcha characters">
+                                            <img id="imgCaptcha" alt="Captcha"/> &nbsp;
+                                            <input type="text" required="required" id="captchaText" placeholder="Enter here captcha characters"> &nbsp;
+                                            <img title="Reload captcha" id="refreshCaptcha" src="images/refresh.png" alt="refresh">
                                         </div> <br>
                                         <div class="form-group">
                                             <button type="submit" class="btn btn-success">Register now!</button>
@@ -174,6 +175,7 @@
         <div class="for-full-back " id="footer">
             The best second-hand shop in the World Wide Web. &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &copy; jprecreativo | All Right Reserved
         </div>
+        <script src="JS/SignUp.js"></script>
     </body>
 </html>
 
