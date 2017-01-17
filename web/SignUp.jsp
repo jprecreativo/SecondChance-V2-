@@ -82,10 +82,10 @@
                            <div class="div-trans-sign-up text-center">
                            
                                 <h3>Register</h3>
-                                <form onsubmit="return validate();">
+                                <form onsubmit="return validate();" action="SignUp">
                                     <div class="col-md-12 col-sm-12">
                                         <div class="form-group">
-                                            <input type="email" class="form-control" required="required" placeholder="Your e-mail (required)">
+                                            <input id="emailValue" type="email" class="form-control" required="required" placeholder="Your e-mail (required)">
                                         </div>
                                         <div class="form-group">
                                             <input type="password" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" name="pass" id="pass" required="required" class="form-control" placeholder="Your password (required)">

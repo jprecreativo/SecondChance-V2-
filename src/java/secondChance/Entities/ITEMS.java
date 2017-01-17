@@ -1,13 +1,13 @@
 package secondChance.Entities;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @NamedQueries
@@ -25,11 +25,11 @@ public class ITEMS implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private int ZC;
-    @NotNull
+    @Column(nullable=false)
     private String name;
-    @NotNull
+    @Column(nullable=false)
     private float price;
-    @NotNull
+    @Column(nullable=false)
     private String category;
     private String status;
     private String description;
