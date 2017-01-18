@@ -45,19 +45,16 @@ public class SignUpServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet NewServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet NewServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        USER_DATA newUser = new USER_DATA();
+        
+        newUser.setEmail(request.getParameter("email"));
+        newUser.setPass(request.getParameter("pass"));
+        newUser.setName(request.getParameter("fullName"));
+        newUser.setAddress(request.getParameter("address"));
+        // newUser.setZC(Integer.valueOf(request.getParameter("ZC")));
+        newUser.setPhoneNumber(Integer.valueOf(request.getParameter("phoneNumber")));
+        
+        this.persist(newUser);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

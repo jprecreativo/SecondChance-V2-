@@ -85,7 +85,7 @@
                                 <form onsubmit="return validate();" action="SignUp">
                                     <div class="col-md-12 col-sm-12">
                                         <div class="form-group">
-                                            <input id="emailValue" type="email" class="form-control" required="required" placeholder="Your e-mail (required)">
+                                            <input name="email" id="emailValue" type="email" class="form-control" required="required" placeholder="Your e-mail (required)">
                                         </div>
                                         <div class="form-group">
                                             <input type="password" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" name="pass" id="pass" required="required" class="form-control" placeholder="Your password (required)">
@@ -94,22 +94,22 @@
                                             <input type="password" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" name="passConfimation" id="passConfirmation" required="required" class="form-control" placeholder="Repeat password (required)">
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="Full name here">
+                                            <input name="fullName" type="text" class="form-control" placeholder="Full name here">
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="Your address">
+                                            <input name="address" type="text" class="form-control" placeholder="Your address">
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" pattern="[0-9]{*}" placeholder="Zip or postal code here">
+                                            <input name="ZC" id="ZC_value" type="text" class="form-control" pattern="[0-9]{*}" placeholder="Zip or postal code here">
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" pattern="^[a-z\d\.]{5,}$" class="form-control" placeholder="Your Facebook user name">
+                                            <input id="FB" type="text" pattern="^[a-z\d\.]{5,}$" class="form-control" placeholder="Your Facebook user name">
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" pattern="^@[a-zA-Z0-9]+$" placeholder="Your '@' in Twitter">
+                                            <input id="TW" type="text" class="form-control" pattern="^@[a-zA-Z0-9]+$" placeholder="Your '@' in Twitter">
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" pattern="[0-9]{9}" placeholder="Phone number">
+                                            <input name="phoneNumber" id="phoneNumber" type="text" class="form-control" pattern="[0-9]{9}" placeholder="Phone number">
                                         </div>
                                         <div class="form-group">
                                             <img id="imgCaptcha" alt="Captcha"/> &nbsp;
