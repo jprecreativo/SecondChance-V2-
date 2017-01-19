@@ -82,7 +82,7 @@
                            <div class="div-trans-sign-up text-center">
                            
                                 <h3>Register</h3>
-                                <form onsubmit="return validate();" action="SignUp">
+                                <form method="POST" onsubmit="return validate();" action="SignUp">
                                     <div class="col-md-12 col-sm-12">
                                         <div class="form-group">
                                             <input name="email" id="emailValue" type="email" class="form-control" required="required" placeholder="Your e-mail (required)">

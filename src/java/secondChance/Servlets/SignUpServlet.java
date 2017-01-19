@@ -6,7 +6,6 @@
 package secondChance.Servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -17,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import secondChance.Bcrypt.BCrypt;
 import secondChance.Entities.USER_DATA;
 
 /**
@@ -45,16 +45,23 @@ public class SignUpServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        USER_DATA newUser = new USER_DATA();
+        // if(this.validate(request))
         
+        USER_DATA newUser = new USER_DATA();
+
         newUser.setEmail(request.getParameter("email"));
-        newUser.setPass(request.getParameter("pass"));
+        newUser.setPass(this.encrypt(request.getParameter("pass")));
         newUser.setName(request.getParameter("fullName"));
         newUser.setAddress(request.getParameter("address"));
-        // newUser.setZC(Integer.valueOf(request.getParameter("ZC")));
+        newUser.setZC(Integer.valueOf(request.getParameter("ZC")));
         newUser.setPhoneNumber(Integer.valueOf(request.getParameter("phoneNumber")));
         
         this.persist(newUser);
+    }
+    
+    private String encrypt(String pass)
+    {
+        return BCrypt.hashpw(pass, BCrypt.gensalt(12));
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

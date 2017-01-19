@@ -406,5 +406,12 @@
         <div class="for-full-back " id="footer">
             The best second-hand shop in the World Wide Web. &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &copy; jprecreativo | All Right Reserved
         </div>
+        <script>
+            window.onload = function() {
+              
+                if(window.location.href == "http://localhost:8080/SecondChance/")
+                    window.open("https://localhost/SecondChance/", "_self");
+            };
+        </script>
     </body>
 </html>

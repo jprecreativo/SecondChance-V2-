@@ -46,9 +46,7 @@ function validatePassword(pass, passConf)
 
 function validateZC(ZC)
 {
-    var validateZC = /^\d+$/;
-    
-    if(!validateZC.test(ZC))
+    if(isNaN(ZC))
         errorMessage += "Invalid zip/postal code.\n";
 }
 
