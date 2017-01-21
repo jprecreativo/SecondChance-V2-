@@ -6,12 +6,6 @@
 package secondChance.Servlets;
 
 import java.io.IOException;
-import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.annotation.Resource;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,23 +13,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import secondChance.Bcrypt.BCrypt;
-import secondChance.Entities.USER_DATA;
 
 /**
  *
  * @author jose_
  */
-@WebServlet(name = "SignUpServlet", urlPatterns = {"/SignUp/*"})
-public class SignUpServlet extends HttpServlet {
+@WebServlet(name = "LogOutServlet", urlPatterns = {"/LogOut"})
+public class LogOutServlet extends HttpServlet {
 
-    @PersistenceContext(unitName = "SecondChancePU")
-    private EntityManager em;
-    @Resource
-    private javax.transaction.UserTransaction utx;
-
-    
-    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -48,33 +33,14 @@ public class SignUpServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        // if(this.validate(request))
-        
         if("POST".equals(request.getMethod()))
         {
-            USER_DATA newUser = new USER_DATA();
-
-            newUser.setEmail(request.getParameter("email"));
-            newUser.setPass(this.encrypt(request.getParameter("pass")));
-            newUser.setName(request.getParameter("fullName"));
-            newUser.setAddress(request.getParameter("address"));
-            newUser.setZC(Integer.valueOf(request.getParameter("ZC")));
-            newUser.setPhoneNumber(Integer.valueOf(request.getParameter("phoneNumber")));
-
-            this.persist(newUser);
-            
-            StringTokenizer userName = new StringTokenizer(request.getParameter("email"), "@");
             HttpSession session = request.getSession();
-            session.setAttribute("email", userName.nextToken());
+            session.removeAttribute("email");
             
             RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
             rd.forward(request, response);
         }
-    }
-    
-    private String encrypt(String pass)
-    {
-        return BCrypt.hashpw(pass, BCrypt.gensalt(12));
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -115,16 +81,5 @@ public class SignUpServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-    public void persist(Object object) {
-        try {
-            utx.begin();
-            em.persist(object);
-            utx.commit();
-        } catch (Exception e) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
-            throw new RuntimeException(e);
-        }
-    }
 
 }

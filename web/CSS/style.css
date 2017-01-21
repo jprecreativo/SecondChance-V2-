@@ -80,6 +80,11 @@ th
     margin-top: 10%;
 }
 
+#leave-site
+{
+    margin-top: 15%;
+}
+
 .help-tip:hover p{
 	display:block;
 	transform-origin: 100% 0%;

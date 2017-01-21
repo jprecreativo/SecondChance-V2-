@@ -103,7 +103,21 @@
                             </div>
                         </div>
                     </c:if>
-
+                    <c:if test="${sessionScope.email != null}">
+                        <div class="col-md-3 col-sm-3">
+                            <div class="div-trans text-center">
+                                <h3>Welcome, "${sessionScope.email}"</h3>
+                                <h5>We hope that you enjoy in this session. Remember favourite items are deleted when you log out.</h5>
+                                <form method="POST" action="LogOut">
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="form-group">
+                                            <input type="submit" id="leave-site" class="btn btn-success" value="Log out"/>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </c:if>
 
                 </div>
             </div>

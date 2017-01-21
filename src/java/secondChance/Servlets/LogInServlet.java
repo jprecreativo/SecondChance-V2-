@@ -7,6 +7,7 @@ package secondChance.Servlets;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -56,8 +57,9 @@ public class LogInServlet extends HttpServlet {
             
             if(this.isValidLogin(enterEmail, enterPass))
             {
+                StringTokenizer userName = new StringTokenizer(enterEmail, "@");
                 HttpSession session = request.getSession();
-                session.setAttribute("email", enterEmail);
+                session.setAttribute("email", userName.nextToken());
                 
                 RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
                 rd.forward(request, response);
