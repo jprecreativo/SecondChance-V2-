@@ -75,6 +75,11 @@ th
 	color:#fff;
 }
 
+#enter-site
+{
+    margin-top: 10%;
+}
+
 .help-tip:hover p{
 	display:block;
 	transform-origin: 100% 0%;

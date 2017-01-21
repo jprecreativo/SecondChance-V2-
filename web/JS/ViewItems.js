@@ -17,7 +17,7 @@ filterButton.onclick = function() {
         xhr = new ActiveXObject("Microsoft.XMLHTTP");
     
     if (xhr == null)
-        alert ("Your browser does not support AJAX!");
+        alert("Your browser does not support AJAX!");
         
     else
     {

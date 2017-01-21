@@ -134,36 +134,21 @@
                         <div class="col-md-3 col-sm-3">
                             <div class="div-trans text-center">
                                 <h3>Log in</h3>
-                                <form>
-
-                                    <div class="col-md-12 col-sm-12">
-                                        <!-- <div class="form-group">
-                                            <input type="text" class="form-control" required="required" placeholder="Name">
-                                        </div> -->
-                                    </div>
+                                <form method="POST" action="LogIn">
                                     <div class="col-md-12 col-sm-12">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" required="required" placeholder="Your e-mail">
+                                            <input type="text" id="enterEmail" class="form-control" required="required" placeholder="Your e-mail">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input type="password" name="pass" id="enterPass" required="required" class="form-control" placeholder="Your password">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="submit" id="enter-site" class="btn btn-success" value="Enter site"/>
                                         </div>
                                     </div>
-
-
-                                    <div class="col-md-12 col-sm-12">
-                                        <div class="form-group">
-                                            <input type="password" name="pass" id="Textarea1" required="required" class="form-control" placeholder="Your password">
-                                        </div>
-                                        <div class="form-group">
-                                            <button type="submit" class="btn btn-success">Enter site</button>
-                                        </div>
-                                        <div class="form-group">
-                                            <a href="#">Forget your password?</a>
-                                        </div>
-
-                                    </div>
-
                                 </form>
                             </div>
-
                         </div>
                     </c:if>
 

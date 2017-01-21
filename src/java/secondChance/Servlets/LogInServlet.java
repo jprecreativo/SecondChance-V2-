@@ -6,11 +6,13 @@
 package secondChance.Servlets;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,8 +27,8 @@ import secondChance.Entities.USER_DATA;
  *
  * @author jose_
  */
-@WebServlet(name = "SignUpServlet", urlPatterns = {"/SignUp/*"})
-public class SignUpServlet extends HttpServlet {
+@WebServlet(name = "LogInServlet", urlPatterns = {"/LogIn"})
+public class LogInServlet extends HttpServlet {
 
     @PersistenceContext(unitName = "SecondChancePU")
     private EntityManager em;
@@ -47,34 +49,30 @@ public class SignUpServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        // if(this.validate(request))
-        
         if("POST".equals(request.getMethod()))
         {
-            USER_DATA newUser = new USER_DATA();
-
-            newUser.setEmail(request.getParameter("email"));
-            newUser.setPass(this.encrypt(request.getParameter("pass")));
-            newUser.setName(request.getParameter("fullName"));
-            newUser.setAddress(request.getParameter("address"));
-            newUser.setZC(Integer.valueOf(request.getParameter("ZC")));
-            newUser.setPhoneNumber(Integer.valueOf(request.getParameter("phoneNumber")));
-
-            this.persist(newUser);
+            String enterEmail = request.getParameter("enterEmail");
+            String enterPass = request.getParameter("enterPass");
             
-            HttpSession session = request.getSession();
-            session.setAttribute("email", request.getParameter("email"));
-            
-            RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
-            rd.forward(request, response);
+            if(this.isValidLogin(enterEmail, enterPass))
+            {
+                HttpSession session = request.getSession();
+                session.setAttribute("email", enterEmail);
+                
+                RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
+                rd.forward(request, response);
+            }
         }
     }
-    
-    private String encrypt(String pass)
-    {
-        return BCrypt.hashpw(pass, BCrypt.gensalt(12));
-    }
 
+    private boolean isValidLogin(String email, String pass)
+    {
+        Query q = em.createNamedQuery("USER_DATA.findPass", USER_DATA.class).setParameter("email", email);
+        List<USER_DATA> theUser = q.getResultList();
+        
+        return !(theUser.isEmpty() || !BCrypt.checkpw(pass, theUser.get(0).getPass()));
+    }
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
