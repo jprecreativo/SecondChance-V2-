@@ -47,16 +47,19 @@ public class SignUpServlet extends HttpServlet {
         
         // if(this.validate(request))
         
-        USER_DATA newUser = new USER_DATA();
+        if("POST".equals(request.getMethod()))
+        {
+            USER_DATA newUser = new USER_DATA();
 
-        newUser.setEmail(request.getParameter("email"));
-        newUser.setPass(this.encrypt(request.getParameter("pass")));
-        newUser.setName(request.getParameter("fullName"));
-        newUser.setAddress(request.getParameter("address"));
-        newUser.setZC(Integer.valueOf(request.getParameter("ZC")));
-        newUser.setPhoneNumber(Integer.valueOf(request.getParameter("phoneNumber")));
-        
-        this.persist(newUser);
+            newUser.setEmail(request.getParameter("email"));
+            newUser.setPass(this.encrypt(request.getParameter("pass")));
+            newUser.setName(request.getParameter("fullName"));
+            newUser.setAddress(request.getParameter("address"));
+            newUser.setZC(Integer.valueOf(request.getParameter("ZC")));
+            newUser.setPhoneNumber(Integer.valueOf(request.getParameter("phoneNumber")));
+
+            this.persist(newUser);
+        }
     }
     
     private String encrypt(String pass)
@@ -76,7 +79,7 @@ public class SignUpServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        // processRequest(request, response);
     }
 
     /**

@@ -1,11 +1,13 @@
 package secondChance.Entities;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class USER_DATA implements Serializable {
@@ -24,6 +26,10 @@ public class USER_DATA implements Serializable {
     private String FB;
     private String TW;
     private int phoneNumber;
+    @OneToMany(mappedBy="owner")
+    private List<ITEMS> items;
+    @OneToMany(mappedBy="owner")
+    private List<COMMENTS> comments;
 
     public Long getId() {
         return id;
@@ -168,6 +174,34 @@ public class USER_DATA implements Serializable {
      */
     public void setPhoneNumber(int phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    /**
+     * @return the items
+     */
+    public List<ITEMS> getItems() {
+        return items;
+    }
+
+    /**
+     * @param items the items to set
+     */
+    public void setItems(List<ITEMS> items) {
+        this.items = items;
+    }
+
+    /**
+     * @return the comments
+     */
+    public List<COMMENTS> getComments() {
+        return comments;
+    }
+
+    /**
+     * @param comments the comments to set
+     */
+    public void setComments(List<COMMENTS> comments) {
+        this.comments = comments;
     }
     
 }

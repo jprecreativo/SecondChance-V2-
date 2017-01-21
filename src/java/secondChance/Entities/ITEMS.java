@@ -1,13 +1,18 @@
 package secondChance.Entities;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
 @Entity
 @NamedQueries
@@ -34,6 +39,11 @@ public class ITEMS implements Serializable {
     private String status;
     private String description;
     private int age;
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="USER_ID")
+    private USER_DATA owner;
+    @OneToMany(mappedBy="item")
+    private List<COMMENTS> comments;
 
     public Long getId() {
         return id;
@@ -164,6 +174,34 @@ public class ITEMS implements Serializable {
      */
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    /**
+     * @return the owner
+     */
+    public USER_DATA getOwner() {
+        return owner;
+    }
+
+    /**
+     * @param owner the owner to set
+     */
+    public void setOwner(USER_DATA owner) {
+        this.owner = owner;
+    }
+
+    /**
+     * @return the comments
+     */
+    public List<COMMENTS> getComments() {
+        return comments;
+    }
+
+    /**
+     * @param comments the comments to set
+     */
+    public void setComments(List<COMMENTS> comments) {
+        this.comments = comments;
     }
     
 }
