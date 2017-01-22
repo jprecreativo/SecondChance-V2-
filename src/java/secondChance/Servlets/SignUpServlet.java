@@ -6,12 +6,14 @@
 package secondChance.Servlets;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -47,10 +49,8 @@ public class SignUpServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        // if(this.validate(request))
-        
-        if("POST".equals(request.getMethod()))
+
+        if("POST".equals(request.getMethod()) && this.validate(request.getParameter("email")))
         {
             USER_DATA newUser = new USER_DATA();
 
@@ -63,13 +63,23 @@ public class SignUpServlet extends HttpServlet {
 
             this.persist(newUser);
             
-            StringTokenizer userName = new StringTokenizer(request.getParameter("email"), "@");
+            // StringTokenizer userName = new StringTokenizer(request.getParameter("email"), "@");
             HttpSession session = request.getSession();
-            session.setAttribute("email", userName.nextToken());
-            
-            RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
-            rd.forward(request, response);
+            session.setAttribute("email", "etjng");
+            // session.setAttribute("email", userName.nextToken());
         }
+        
+        RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
+        rd.forward(request, response);
+    }
+    
+    private boolean validate(String email)
+    {
+        String queryEmail = "SELECT u FROM USER_DATA u WHERE u.email = :email";
+        Query q = em.createQuery(queryEmail).setParameter("email", email);
+        List<USER_DATA> theUser = q.getResultList();
+        
+        return theUser.isEmpty();
     }
     
     private String encrypt(String pass)

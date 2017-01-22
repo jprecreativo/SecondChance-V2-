@@ -59,14 +59,24 @@ public class LogInServlet extends HttpServlet {
             {
                 StringTokenizer userName = new StringTokenizer(enterEmail, "@");
                 HttpSession session = request.getSession();
-                session.setAttribute("email", userName.nextToken());
                 
-                RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
-                rd.forward(request, response);
+                session.setAttribute("email", userName.nextToken());
             }
         }
+        
+        RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
+        rd.forward(request, response);
     }
-
+    
+    /* private long getUserId(String email)
+    {
+        String idQuery = "SELECT u FROM USER_DATA u WHERE u.email = :email";
+        Query q = em.createQuery(idQuery).setParameter("email", email);
+        List<USER_DATA> theUser = q.getResultList();
+        
+        return theUser.get(0).getId();
+    } */
+    
     private boolean isValidLogin(String email, String pass)
     {
         Query q = em.createNamedQuery("USER_DATA.findPass", USER_DATA.class).setParameter("email", email);

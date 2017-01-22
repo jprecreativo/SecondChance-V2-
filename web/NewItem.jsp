@@ -92,6 +92,7 @@
                                 <input type="text" pattern="[0-9]{*}" id="price" name="price" placeholder="Type a fair price" required/> <br> <br>
                                 <label for="stateSelect">State: </label> &nbsp;
                                 <select id="stateSelect" name="stateSelect" size="1">
+                                    <option>NO SPECIFIED</option>
                                     <option>MINT</option>
                                     <option>USED</option>
                                     <option>OLD</option>
