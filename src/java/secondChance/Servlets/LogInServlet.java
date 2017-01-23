@@ -59,7 +59,7 @@ public class LogInServlet extends HttpServlet {
             {
                 StringTokenizer userName = new StringTokenizer(enterEmail, "@");
                 HttpSession session = request.getSession();
-                
+                session.setAttribute("fullEmail", enterEmail);
                 session.setAttribute("email", userName.nextToken());
             }
         }

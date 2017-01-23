@@ -63,10 +63,10 @@ public class SignUpServlet extends HttpServlet {
 
             this.persist(newUser);
             
-            // StringTokenizer userName = new StringTokenizer(request.getParameter("email"), "@");
+            StringTokenizer userName = new StringTokenizer(request.getParameter("email"), "@");
             HttpSession session = request.getSession();
-            session.setAttribute("email", "etjng");
-            // session.setAttribute("email", userName.nextToken());
+            session.setAttribute("fullEmail", request.getParameter("email"));
+            session.setAttribute("email", userName.nextToken());
         }
         
         RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");

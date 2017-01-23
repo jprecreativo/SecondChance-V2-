@@ -13,6 +13,7 @@ import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -71,13 +72,19 @@ public class NewItemServlet extends HttpServlet {
             newItem.setOwner(this.getSessionUser(request.getSession()));
             
             this.persist(newItem);
+            
+            RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
+            rd.forward(request, response);
         }
+        
+        RequestDispatcher rd = request.getRequestDispatcher("NewItem.jsp");
+        rd.forward(request, response);
     }
 
     private USER_DATA getSessionUser(HttpSession session)
     {
-        String emailQuery = "SELECT u FROM USER_DATA u WHERE u.email = :email";
-        String fullEmail = session.getAttribute("email").toString();
+        String emailQuery = "SELECT u FROM USER_DATA u WHERE u.email = :fullEmail";
+        String fullEmail = session.getAttribute("fullEmail").toString();
         Query q = em.createQuery(emailQuery).setParameter("fullEmail", fullEmail);
         List<USER_DATA> theUser = q.getResultList();
         
