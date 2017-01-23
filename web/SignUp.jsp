@@ -137,11 +137,11 @@
                                 <form method="POST" action="LogIn">
                                     <div class="col-md-12 col-sm-12">
                                         <div class="form-group">
-                                            <input type="text" id="enterEmail" class="form-control" required="required" placeholder="Your e-mail">
+                                            <input type="text" name="enterEmail" id="enterEmail" class="form-control" required="required" placeholder="Your e-mail">
                                         </div>
 
                                         <div class="form-group">
-                                            <input type="password" name="pass" id="enterPass" required="required" class="form-control" placeholder="Your password">
+                                            <input type="password" name="enterPass" id="enterPass" required="required" class="form-control" placeholder="Your password">
                                         </div>
                                         <div class="form-group">
                                             <input type="submit" id="enter-site" class="btn btn-success" value="Enter site"/>

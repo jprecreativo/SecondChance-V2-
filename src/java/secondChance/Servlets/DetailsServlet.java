@@ -19,16 +19,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import secondChance.Entities.ITEMS;
-import secondChance.Entities.USER_DATA;
 
 /**
  *
  * @author jose_
  */
-@WebServlet(name = "NewItemServlet", urlPatterns = {"/NewItem"})
-public class NewItemServlet extends HttpServlet {
+@WebServlet(name = "DetailsServlet", urlPatterns = {"/Details"})
+public class DetailsServlet extends HttpServlet {
 
     @PersistenceContext(unitName = "SecondChancePU")
     private EntityManager em;
@@ -48,51 +46,19 @@ public class NewItemServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       
-        if("POST".equals(request.getMethod()))
+        
+        if("GET".equals(request.getMethod()))
         {
-            ITEMS newItem = new ITEMS();
-            
-            newItem.setCategory(request.getParameter("categorySelect"));
-            newItem.setName(request.getParameter("name"));
-            newItem.setPrice(Float.parseFloat(request.getParameter("price")));
-            
-            if(!request.getParameter("stateSelect").equals("NO SPECIFIED"))
-                newItem.setStatus(request.getParameter("stateSelect"));
-            
-            if(!"".equals(request.getParameter("description")))
-                newItem.setDescription(request.getParameter("description"));
-            
-            if(!"".equals(request.getParameter("ZC")))
-                newItem.setZC(Integer.parseInt(request.getParameter("ZC")));
-            
-            if(!"".equals(request.getParameter("age")))
-                newItem.setAge(Integer.parseInt(request.getParameter("age")));
-            
-            newItem.setOwner(this.getSessionUser(request.getSession()));
-            
-            this.persist(newItem);
-            
-            
-            
-            RequestDispatcher rd = request.getRequestDispatcher("/NewItem.jsp");
+            Long itemID = Long.parseLong(request.getParameter("id"));
+            String idQuery = "SELECT i FROM ITEMS i WHERE i.id = " + itemID;
+            Query query = em.createQuery(idQuery);
+            List <ITEMS> li = query.getResultList();
+            request.setAttribute("items", li);
+            RequestDispatcher rd = request.getRequestDispatcher("/ViewDetails.jsp");
             rd.forward(request, response);
         }
-        
-        RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
-        rd.forward(request, response);
     }
 
-    private USER_DATA getSessionUser(HttpSession session)
-    {
-        String emailQuery = "SELECT u FROM USER_DATA u WHERE u.email = :fullEmail";
-        String fullEmail = session.getAttribute("fullEmail").toString();
-        Query q = em.createQuery(emailQuery).setParameter("fullEmail", fullEmail);
-        List<USER_DATA> theUser = q.getResultList();
-        
-        return theUser.get(0);
-    }
-    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -105,7 +71,7 @@ public class NewItemServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // processRequest(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -119,7 +85,7 @@ public class NewItemServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        // processRequest(request, response);
     }
 
     /**

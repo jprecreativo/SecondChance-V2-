@@ -56,10 +56,18 @@ public class SignUpServlet extends HttpServlet {
 
             newUser.setEmail(request.getParameter("email"));
             newUser.setPass(this.encrypt(request.getParameter("pass")));
-            newUser.setName(request.getParameter("fullName"));
-            newUser.setAddress(request.getParameter("address"));
-            newUser.setZC(Integer.valueOf(request.getParameter("ZC")));
-            newUser.setPhoneNumber(Integer.valueOf(request.getParameter("phoneNumber")));
+            
+            if(!"".equals(request.getParameter("fullName")))
+                newUser.setName(request.getParameter("fullName"));
+            
+            if(!"".equals(request.getParameter("address")))
+                newUser.setAddress(request.getParameter("address"));
+            
+            if(!"".equals(request.getParameter("ZC")))
+                newUser.setZC(Integer.valueOf(request.getParameter("ZC")));
+            
+            if(!"".equals(request.getParameter("phoneNumber")))
+                newUser.setPhoneNumber(Integer.valueOf(request.getParameter("phoneNumber")));
 
             this.persist(newUser);
             

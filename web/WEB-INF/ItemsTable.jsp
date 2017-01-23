@@ -9,10 +9,8 @@
                     <th>CATEGORY</th>
                     <th>NAME</th>
                     <th>PRICE</th>
-                    <th>STATE</th>
-                    <th>DESCRIPTION</th>
                     <th>ZC</th>
-                    <th>AGE</th>
+                    <th>DETAILS</th>
                 </tr>
                 <c:forEach var="item" items="${requestScope.items}">
                     <tr>
@@ -20,37 +18,14 @@
                         <td>${item.name}</td>
                         <td>${item.price}</td>
                         <c:choose>
-                            <c:when test="${empty item.status}">
-                                <td>No specified.</td>
-                            </c:when>    
-                            <c:otherwise>
-                                <td>${item.status}</td>
-                            </c:otherwise>
-                        </c:choose>
-                        <c:choose>
-                            <c:when test="${empty item.description}">
-                                <td>No specified.</td>
-                            </c:when>    
-                            <c:otherwise>
-                                <td>${item.description}</td>
-                            </c:otherwise>
-                        </c:choose>
-                        <c:choose>
-                            <c:when test="${empty item.ZC}">
+                            <c:when test="${empty item.ZC or item.ZC eq '0'}">
                                 <td>No specified.</td>
                             </c:when>    
                             <c:otherwise>
                                 <td>${item.ZC}</td>
                             </c:otherwise>
                         </c:choose>
-                        <c:choose>
-                            <c:when test="${empty item.age}">
-                                <td>No specified.</td>
-                            </c:when>    
-                            <c:otherwise>
-                                <td>${item.age}</td>
-                            </c:otherwise>
-                        </c:choose>
+                        <td><a href="/SecondChance/Details?id=${item.name}">View details</a></td>
                     </tr>
                 </c:forEach>
             </table>

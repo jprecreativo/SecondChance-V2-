@@ -124,48 +124,26 @@
                                                 <th>CATEGORY</th>
                                                 <th>NAME</th>
                                                 <th>PRICE</th>
-                                                <th>STATE</th>
-                                                <th>DESCRIPTION</th>
                                                 <th>ZC</th>
-                                                <th>AGE</th>
+                                                <th>DETAILS</th>
                                             </tr>
                                             <c:forEach var="item" items="${requestScope.items}">
                                                 <tr>
                                                     <td>${item.category}</td>
                                                     <td>${item.name}</td>
                                                     <td>${item.price}</td>
+                                                    
+                                                   
                                                     <c:choose>
-                                                        <c:when test="${empty item.status}">
-                                                            <td>No specified.</td>
-                                                        </c:when>    
-                                                        <c:otherwise>
-                                                            <td>${item.status}</td>
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                    <c:choose>
-                                                        <c:when test="${empty item.description}">
-                                                            <td>No specified.</td>
-                                                        </c:when>    
-                                                        <c:otherwise>
-                                                            <td>${item.description}</td>
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                    <c:choose>
-                                                        <c:when test="${empty item.ZC}">
+                                                        <c:when test="${empty item.ZC or item.ZC eq '0'}">
                                                             <td>No specified.</td>
                                                         </c:when>    
                                                         <c:otherwise>
                                                             <td>${item.ZC}</td>
                                                         </c:otherwise>
                                                     </c:choose>
-                                                    <c:choose>
-                                                        <c:when test="${empty item.age}">
-                                                            <td>No specified.</td>
-                                                        </c:when>    
-                                                        <c:otherwise>
-                                                            <td>${item.age}</td>
-                                                        </c:otherwise>
-                                                    </c:choose>
+                                                   
+                                                    <td><a href="/SecondChance/Details?id=${item.id}">View details</a></td>
                                                 </tr>
                                             </c:forEach>
                                         </table>
@@ -176,7 +154,7 @@
                                 </c:choose>
                             </div>
                         </div>
-
+                        
                     </div>
                     <c:if test="${sessionScope.email == null}">
                         <div class="col-md-3 col-sm-3">
@@ -185,11 +163,11 @@
                                 <form method="POST" action="LogIn">
                                     <div class="col-md-12 col-sm-12">
                                         <div class="form-group">
-                                            <input type="text" id="enterEmail" class="form-control" required="required" placeholder="Your e-mail">
+                                            <input type="text" name="enterEmail" id="enterEmail" class="form-control" required="required" placeholder="Your e-mail">
                                         </div>
 
                                         <div class="form-group">
-                                            <input type="password" name="pass" id="enterPass" required="required" class="form-control" placeholder="Your password">
+                                            <input type="password" name="enterPass" id="enterPass" required="required" class="form-control" placeholder="Your password">
                                         </div>
                                         <div class="form-group">
                                             <input type="submit" id="enter-site" class="btn btn-success" value="Enter site"/>

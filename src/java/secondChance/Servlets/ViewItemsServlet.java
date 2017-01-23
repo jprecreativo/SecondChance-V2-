@@ -164,7 +164,7 @@ public class ViewItemsServlet extends HttpServlet
             
             else   // There was errors in parameters.
             {
-                rd = request.getRequestDispatcher("/WEB-INF/ErrorViewItems.jsp");
+                rd = request.getRequestDispatcher("/index.jsp");
                 rd.forward(request, response);
             }
         }
