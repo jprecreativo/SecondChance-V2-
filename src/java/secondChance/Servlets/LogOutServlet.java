@@ -38,6 +38,7 @@ public class LogOutServlet extends HttpServlet {
             HttpSession session = request.getSession();
             session.removeAttribute("email");
             session.removeAttribute("fullEmail");
+            session.removeAttribute("favourites");
         }
         
         RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");

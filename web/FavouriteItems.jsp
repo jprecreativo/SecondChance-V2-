@@ -52,7 +52,7 @@
 
                             <c:if test="${sessionScope.email != null}">
                                 <li><a href="/SecondChance/NewItem.jsp">NEW ITEM</a></li>
-                                <li><a href="/SecondChance/FavouriteItems">FAVOURITE ITEMS</a></li>
+                                <li><a href="/SecondChance/FavouriteItems.jsp">FAVOURITE ITEMS</a></li>
                             </c:if>
 
                             <c:if test="${sessionScope.email == null}">    
@@ -76,49 +76,10 @@
                         <span class="head-sub-main">Lorem ipsum dolor</span> -->
                         <div class="head-last">
                             <h1>Items</h1>
-                            <button id="filterButton" name="filterButton" type="button" class="btn btn-default btn-sm" value="filterButton">
-                                <span ><img src="images/filter.gif" alt="filter"></span> &nbsp; Filter 
-                            </button>
-                            &nbsp;
-                            Category:
-                            <select id="categorySelect" name="categorySelect" size="1">
-                                <option>ALL</option>
-                                <option>BOOKS</option>
-                                <option>COMPUTING</option>
-                                <option>FURNITURE</option>
-                                <option>GAMES</option>
-                                <option>TOYS</option>
-                                <option>VEHICLES</option>
-                                <option>OTHERS</option>
-                            </select>
-                            &nbsp;
-                            Price:
-                            <select id="priceSelect" name="priceSelect" size="1">
-                                <option>ALL</option>
-                                <option>0 - 10</option>
-                                <option>10 - 20</option>
-                                <option>20 - 30</option>
-                                <option>30 - 40</option>
-                                <option>40 - 50</option>
-                                <option>50 - 100</option>
-                                <option>100 - 500</option>
-                                <option>500 - 1000</option>
-                                <option>1000 - 5000</option>
-                                <option>5000 - 10000</option>
-                                <option>10000 - 100000</option>
-                            </select>
-                            &nbsp;
-                            Zip code:
-                            <input name="zipCode" id="zipCode" type="text"/>
-                            &nbsp;
-                            <input type="button" id="noFilterButton" value="No filter"/>
-                            <div class="help-tip">
-                                <p>You can filter by item category, price or zip code or not filter. Filter's fields must be valid.</p>
-                            </div>
-                            <br><br>
-                            <div id="tableAJAX">
+                           
+                            <div>
                                 <c:choose>
-                                    <c:when test="${!empty requestScope.items}">
+                                    <c:when test="${!empty sessionScope.favourites}">
                                         <table border='1'>
                                             <tr>
                                                 <th>CATEGORY</th>
@@ -127,7 +88,7 @@
                                                 <th>ZC</th>
                                                 <th>DETAILS</th>
                                             </tr>
-                                            <c:forEach var="item" items="${requestScope.items}">
+                                            <c:forEach var="item" items="${sessionScope.favourites}">
                                                 <tr>
                                                     <td>${item.category}</td>
                                                     <td>${item.name}</td>

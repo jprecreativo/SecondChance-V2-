@@ -1,34 +1,39 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package secondChance.Servlets;
 
 import java.io.IOException;
-import java.util.Enumeration;
 import java.util.List;
-import java.util.StringTokenizer;
+import java.util.Objects;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import secondChance.Entities.ITEMS;
 
 /**
  *
  * @author jose_
  */
+@WebServlet(name = "FavouritesManagingServlet", urlPatterns = {"/Favourites/Add", "/Favourites/Remove"})
+public class FavouriteItemsServlet extends HttpServlet {
 
-@WebServlet(name = "FavouriteItemsServlet", urlPatterns = {"/FavouriteItems/*"})
-public class FavouriteItemsServlet extends HttpServlet 
-{
     @PersistenceContext(unitName = "SecondChancePU")
     private EntityManager em;
     @Resource
     private javax.transaction.UserTransaction utx;
+
+    
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,151 +42,43 @@ public class FavouriteItemsServlet extends HttpServlet
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws java.io.IOException
+     * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
-    {
-        Enumeration<String> params = request.getParameterNames();
-        TypedQuery<ITEMS> query;
-        RequestDispatcher rd;
-        List<ITEMS> li;
-        Query q;
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         
-        if(params.hasMoreElements())   // Request has parameters.
+        if("GET".equals(request.getMethod()))
         {
-            if(filtersParamsAreCorrect(request))   // Parameters are correct.
+            String path = request.getServletPath();
+            
+            if(path.contains("Add"))
             {
-                String cat = request.getParameter(params.nextElement());
-                String price = request.getParameter(params.nextElement());
-                String zipCode = request.getParameter(params.nextElement());
-
-                if("ALL".equals(cat) && "ALL".equals(price) && "".equals(zipCode))   // No filter.
-                {
-                    query = em.createNamedQuery("ITEMS.findAll", ITEMS.class);
-                    li = query.getResultList();
-                    request.setAttribute("items", li);
-                    rd = request.getRequestDispatcher("/WEB-INF/ItemsTable.jsp");
-                    rd.forward(request, response);
-                }
-
-                else if(!"ALL".equals(cat) && "ALL".equals(price) && "".equals(zipCode))   // Filter by category.
-                {
-                    query = em.createNamedQuery("ITEMS.findByCategory", ITEMS.class).setParameter("category", cat);
-                    li = query.getResultList();
-                    request.setAttribute("items", li);
-                    rd = request.getRequestDispatcher("/WEB-INF/ItemsTable.jsp");
-                    rd.forward(request, response);
-                }
-
-                else if("ALL".equals(cat) && !"ALL".equals(price) && "".equals(zipCode))   // Filter by price.
-                {
-                    StringTokenizer priceToken = new StringTokenizer(price, "-");
-                    double priceLow = Double.parseDouble(priceToken.nextToken());
-                    double priceHigh = Double.parseDouble(priceToken.nextToken());
-
-                    query = em.createNamedQuery("ITEMS.findByPrice", ITEMS.class).setParameter("priceLow", priceLow);
-                    query.setParameter("priceHigh", priceHigh);
-                    li = query.getResultList();
-                    request.setAttribute("items", li);
-                    rd = request.getRequestDispatcher("/WEB-INF/ItemsTable.jsp");
-                    rd.forward(request, response);
-                }
-
-                else if("ALL".equals(cat) && "ALL".equals(price) && !"".equals(zipCode))   // Filter by zip code.
-                {
-                    query = em.createNamedQuery("ITEMS.findByZC", ITEMS.class).setParameter("ZC", Integer.parseInt(zipCode));
-                    li = query.getResultList();
-                    request.setAttribute("items", li);
-                    rd = request.getRequestDispatcher("/WEB-INF/ItemsTable.jsp");
-                    rd.forward(request, response);
-                }
-
-                else if(!"ALL".equals(cat) && !"ALL".equals(price) && !"".equals(zipCode))   // Filter by all.
-                {
-                    StringTokenizer priceToken = new StringTokenizer(price, "-");
-                    double priceLow = Double.parseDouble(priceToken.nextToken());
-                    double priceHigh = Double.parseDouble(priceToken.nextToken());
-
-                    query = em.createNamedQuery("ITEMS.findByAll", ITEMS.class).setParameter("ZC", Integer.parseInt(zipCode));
-                    query.setParameter("category", cat);
-                    query.setParameter("priceLow", priceLow);
-                    query.setParameter("priceHigh", priceHigh);
-                    li = query.getResultList();
-                    request.setAttribute("items", li);
-                    rd = request.getRequestDispatcher("/WEB-INF/ItemsTable.jsp");
-                    rd.forward(request, response);
-                }
-
-                else if(!"ALL".equals(cat) && !"ALL".equals(price) && "".equals(zipCode))   // Filter by category and price.
-                {
-                    StringTokenizer priceToken = new StringTokenizer(price, "-");
-                    double priceLow = Double.parseDouble(priceToken.nextToken());
-                    double priceHigh = Double.parseDouble(priceToken.nextToken());
-
-                    String queryString = "SELECT i FROM ITEMS i WHERE i.category = :category";
-                    queryString += " AND :priceLow <= i.price AND i.price <= :priceHigh";
-                    q = em.createQuery(queryString);
-                    q.setParameter("category", cat);
-                    q.setParameter("priceLow", priceLow);
-                    q.setParameter("priceHigh", priceHigh);
-                    li = q.getResultList();
-                    request.setAttribute("items", li);
-                    rd = request.getRequestDispatcher("/WEB-INF/ItemsTable.jsp");
-                    rd.forward(request, response);
-                }
-
-                else if(!"ALL".equals(cat) && "ALL".equals(price) && !"".equals(zipCode))   // Filter by category and zip code.
-                {
-                    String queryString = "SELECT i FROM ITEMS i WHERE i.category = :category";
-                    queryString += " AND i.ZC = :ZC";
-                    q = em.createQuery(queryString);
-                    q.setParameter("category", cat);
-                    q.setParameter("ZC", Integer.parseInt(zipCode));
-                    li = q.getResultList();
-                    request.setAttribute("items", li);
-                    rd = request.getRequestDispatcher("/WEB-INF/ItemsTable.jsp");
-                    rd.forward(request, response);
-                }
-
-                else if("ALL".equals(cat) && !"ALL".equals(price) && !"".equals(zipCode))   // Filter by price and zip code.
-                {
-                    StringTokenizer priceToken = new StringTokenizer(price, "-");
-                    double priceLow = Double.parseDouble(priceToken.nextToken());
-                    double priceHigh = Double.parseDouble(priceToken.nextToken());
-
-                    String queryString = "SELECT i FROM ITEMS i WHERE i.ZC = :ZC";
-                    queryString += " AND :priceLow <= i.price AND i.price <= :priceHigh";
-                    q = em.createQuery(queryString);
-                    q.setParameter("priceLow", priceLow);
-                    q.setParameter("priceHigh", priceHigh);
-                    q.setParameter("ZC", Integer.parseInt(zipCode));
-                    li = q.getResultList();
-                    request.setAttribute("items", li);
-                    rd = request.getRequestDispatcher("/WEB-INF/ItemsTable.jsp");
-                    rd.forward(request, response);
-                }
+                HttpSession session = request.getSession();
+                List<ITEMS> favourites = (List<ITEMS>) session.getAttribute("favourites");
+                Long itemID = Long.parseLong(request.getParameter("id"));
+                String idQuery = "SELECT i FROM ITEMS i WHERE i.id = " + itemID;
+                Query query = em.createQuery(idQuery);
+                
+                favourites.addAll(query.getResultList());
             }
             
-            else   // There was errors in parameters.
+            else if(path.contains("Remove"))
             {
-                rd = request.getRequestDispatcher("/index.jsp");
-                rd.forward(request, response);
+                HttpSession session = request.getSession();
+                List<ITEMS> favourites = (List<ITEMS>) session.getAttribute("favourites");
+                Long itemID = Long.parseLong(request.getParameter("id"));
+                int i = 0, n = favourites.size();
+                
+                while(i < n && !Objects.equals(favourites.get(i).getId(), itemID))
+                    i++;
+                
+                if(i < n)
+                    favourites.remove(i);
             }
         }
         
-        else
-        {
-            query = em.createNamedQuery("ITEMS.findAll", ITEMS.class);
-            li = query.getResultList();
-            request.setAttribute("items", li);
-            rd = request.getRequestDispatcher("/ViewItems.jsp");
-            rd.forward(request, response);
-        }
-    }
-    
-    boolean filtersParamsAreCorrect(HttpServletRequest request)
-    {
-        return request.getParameter("isAJAX").equals("TRUE");
+        RequestDispatcher rd = request.getRequestDispatcher("/FavouriteItems.jsp");
+        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -191,11 +88,11 @@ public class FavouriteItemsServlet extends HttpServlet
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws java.io.IOException
+     * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException
-    {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
@@ -205,12 +102,12 @@ public class FavouriteItemsServlet extends HttpServlet
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws java.io.IOException
+     * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-    {
-        processRequest(request, response);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // processRequest(request, response);
     }
 
     /**
@@ -219,8 +116,7 @@ public class FavouriteItemsServlet extends HttpServlet
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo() 
-    {
+    public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 
@@ -234,4 +130,5 @@ public class FavouriteItemsServlet extends HttpServlet
             throw new RuntimeException(e);
         }
     } */
+
 }

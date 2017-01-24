@@ -52,7 +52,7 @@
 
                             <c:if test="${sessionScope.email != null}">
                                 <li><a href="/SecondChance/NewItem.jsp">NEW ITEM</a></li>
-                                <li><a href="/SecondChance/FavouriteItems">FAVOURITE ITEMS</a></li>
+                                <li><a href="/SecondChance/FavouriteItems.jsp">FAVOURITE ITEMS</a></li>
                                 </c:if>
 
                             <c:if test="${sessionScope.email == null}">    

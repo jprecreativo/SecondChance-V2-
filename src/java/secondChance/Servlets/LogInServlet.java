@@ -6,6 +6,7 @@
 package secondChance.Servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import secondChance.Bcrypt.BCrypt;
+import secondChance.Entities.ITEMS;
 import secondChance.Entities.USER_DATA;
 
 /**
@@ -61,6 +63,8 @@ public class LogInServlet extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("fullEmail", enterEmail);
                 session.setAttribute("email", userName.nextToken());
+                List<ITEMS> favourites = new ArrayList();
+                session.setAttribute("favourites", favourites);
             }
         }
         

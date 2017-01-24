@@ -52,12 +52,12 @@
 
                             <c:if test="${sessionScope.email != null}">
                                 <li><a href="/SecondChance/NewItem.jsp">NEW ITEM</a></li>
-                                <li><a href="/SecondChance/FavouriteItems">FAVOURITE ITEMS</a></li>
-                            </c:if>
+                                <li><a href="/SecondChance/FavouriteItems.jsp">FAVOURITE ITEMS</a></li>
+                                </c:if>
 
                             <c:if test="${sessionScope.email == null}">    
                                 <li><a href="/SecondChance/SignUp.jsp">SIGN UP</a></li>
-                            </c:if>    
+                                </c:if>    
                         </ul>
                     </div>
                     <!-- /.navbar-collapse -->
@@ -75,12 +75,12 @@
                         <!-- <h1 class="head-main">The Real Time</h1>
                         <span class="head-sub-main">Lorem ipsum dolor</span> -->
                         <div class="head-last">
-                          
-                           <c:forEach var="item" items="${requestScope.items}">
+
+                            <c:forEach var="item" items="${requestScope.items}">
                                 <h1>${item.name} details</h1>
                             </c:forEach>
-                              
-                           
+
+
                             <br><br>
                             <div id="tableAJAX">
                                 <c:choose>
@@ -91,15 +91,18 @@
                                                 <th>NAME</th>
                                                 <th>PRICE</th>
                                                 <th>ZC</th>
-                                                <th>FAVOUTITE</th>
+                                                <c:if test="${sessionScope.email != null}">
+                                                    <th>FAVOUTITE</th>
+                                                </c:if>
+
                                             </tr>
                                             <c:forEach var="item" items="${requestScope.items}">
                                                 <tr>
                                                     <td>${item.category}</td>
                                                     <td>${item.name}</td>
                                                     <td>${item.price}</td>
-                                                    
-                                                   
+
+
                                                     <c:choose>
                                                         <c:when test="${empty item.ZC or item.ZC eq '0'}">
                                                             <td>No specified.</td>
@@ -108,25 +111,30 @@
                                                             <td>${item.ZC}</td>
                                                         </c:otherwise>
                                                     </c:choose>
-                                                   
+
                                                     <c:set var="contains" value="false" />
-                                                    <c:forEach var="favName" items="${sessionScope.favourites}">
-                                                      <c:if test="${fav eq item.name}">
-                                                        <c:set var="contains" value="true" />
-                                                      </c:if>
+                                                    <c:forEach var="fav" items="${sessionScope.favourites}">
+                                                        <c:if test="${fav.name eq item.name}">
+                                                            <c:set var="contains" value="true" />
+                                                        </c:if>
                                                     </c:forEach>
-                                                            
-                                                    <c:choose>
+
+                                                    <c:if test="${sessionScope.email != null}">
+                                                        <c:choose>
+
+                                                            <c:when test="${contains}">
+                                                                <td><a href="/SecondChance/Favourites/Remove?id=${item.id}">Remove</a></td>
+                                                            </c:when>    
+                                                            <c:otherwise>
+                                                                <td><a href="/SecondChance/Favourites/Add?id=${item.id}">Add</a></td>
+                                                            </c:otherwise>
+
+                                                        </c:choose>
                                                         
                                                         
-                                                        <c:when test="${contains}">
-                                                            <td>YES.</td>
-                                                        </c:when>    
-                                                        <c:otherwise>
-                                                            <td>NO.</td>
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                   
+                                                    </c:if>
+                                                    
+
                                                 </tr>
                                             </c:forEach>
                                         </table>
@@ -135,13 +143,13 @@
                                         <p>There are no items.</p>
                                     </c:otherwise>
                                 </c:choose>
-                                   
+
                                 <br>       
-                                 
+
                                 <c:forEach var="item" items="${requestScope.items}">
                                     <h5>
                                         <b>Product state: </b> &nbsp; 
-                                        
+
                                         <c:choose>
                                             <c:when test="${empty item.status}">
                                                 No specified.
@@ -153,7 +161,7 @@
                                     </h5>
                                     <h5>
                                         <b>Product age: </b> &nbsp; 
-                                        
+
                                         <c:choose>
                                             <c:when test="${empty item.age or item.age eq '0'}">
                                                 No specified.
@@ -165,7 +173,7 @@
                                     </h5> <br>
                                     <p>
                                         <b>Product description: </b> &nbsp;
-                                        
+
                                         <c:choose>
                                             <c:when test="${empty item.description}">
                                                 No specified.
@@ -178,7 +186,7 @@
                                 </c:forEach>
                             </div>
                         </div>
-                        
+
                     </div>
                     <c:if test="${sessionScope.email == null}">
                         <div class="col-md-3 col-sm-3">
@@ -220,11 +228,11 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="for-full-back " id="footer">
             The best second-hand shop in the World Wide Web. &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &copy; jprecreativo | All Right Reserved
         </div>
-        
+
     </body>
 </html>
 
