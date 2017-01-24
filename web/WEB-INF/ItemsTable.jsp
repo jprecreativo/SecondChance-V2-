@@ -25,6 +25,9 @@
                                 <td>${item.ZC}</td>
                             </c:otherwise>
                         </c:choose>
+                         
+                       
+                                
                         <td><a href="/SecondChance/Details?id=${item.name}">View details</a></td>
                     </tr>
                 </c:forEach>

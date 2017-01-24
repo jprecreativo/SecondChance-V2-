@@ -75,12 +75,46 @@
                         <!-- <h1 class="head-main">The Real Time</h1>
                         <span class="head-sub-main">Lorem ipsum dolor</span> -->
                         <div class="head-last">
-                          
-                           <c:forEach var="item" items="${requestScope.items}">
-                                <h1>${item.name} details</h1>
-                            </c:forEach>
-                              
-                           
+                            <h1>Items</h1>
+                            <button id="filterButton" name="filterButton" type="button" class="btn btn-default btn-sm" value="filterButton">
+                                <span ><img src="images/filter.gif" alt="filter"></span> &nbsp; Filter 
+                            </button>
+                            &nbsp;
+                            Category:
+                            <select id="categorySelect" name="categorySelect" size="1">
+                                <option>ALL</option>
+                                <option>BOOKS</option>
+                                <option>COMPUTING</option>
+                                <option>FURNITURE</option>
+                                <option>GAMES</option>
+                                <option>TOYS</option>
+                                <option>VEHICLES</option>
+                                <option>OTHERS</option>
+                            </select>
+                            &nbsp;
+                            Price:
+                            <select id="priceSelect" name="priceSelect" size="1">
+                                <option>ALL</option>
+                                <option>0 - 10</option>
+                                <option>10 - 20</option>
+                                <option>20 - 30</option>
+                                <option>30 - 40</option>
+                                <option>40 - 50</option>
+                                <option>50 - 100</option>
+                                <option>100 - 500</option>
+                                <option>500 - 1000</option>
+                                <option>1000 - 5000</option>
+                                <option>5000 - 10000</option>
+                                <option>10000 - 100000</option>
+                            </select>
+                            &nbsp;
+                            Zip code:
+                            <input name="zipCode" id="zipCode" type="text"/>
+                            &nbsp;
+                            <input type="button" id="noFilterButton" value="No filter"/>
+                            <div class="help-tip">
+                                <p>You can filter by item category, price or zip code or not filter. Filter's fields must be valid.</p>
+                            </div>
                             <br><br>
                             <div id="tableAJAX">
                                 <c:choose>
@@ -91,7 +125,7 @@
                                                 <th>NAME</th>
                                                 <th>PRICE</th>
                                                 <th>ZC</th>
-                                                <th>FAVOUTITE</th>
+                                                <th>DETAILS</th>
                                             </tr>
                                             <c:forEach var="item" items="${requestScope.items}">
                                                 <tr>
@@ -109,24 +143,7 @@
                                                         </c:otherwise>
                                                     </c:choose>
                                                    
-                                                    <c:set var="contains" value="false" />
-                                                    <c:forEach var="favName" items="${sessionScope.favourites}">
-                                                      <c:if test="${fav eq item.name}">
-                                                        <c:set var="contains" value="true" />
-                                                      </c:if>
-                                                    </c:forEach>
-                                                            
-                                                    <c:choose>
-                                                        
-                                                        
-                                                        <c:when test="${contains}">
-                                                            <td>YES.</td>
-                                                        </c:when>    
-                                                        <c:otherwise>
-                                                            <td>NO.</td>
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                   
+                                                    <td><a href="/SecondChance/Details?id=${item.id}">View details</a></td>
                                                 </tr>
                                             </c:forEach>
                                         </table>
@@ -135,47 +152,6 @@
                                         <p>There are no items.</p>
                                     </c:otherwise>
                                 </c:choose>
-                                   
-                                <br>       
-                                 
-                                <c:forEach var="item" items="${requestScope.items}">
-                                    <h5>
-                                        <b>Product state: </b> &nbsp; 
-                                        
-                                        <c:choose>
-                                            <c:when test="${empty item.status}">
-                                                No specified.
-                                            </c:when>    
-                                            <c:otherwise>
-                                                ${item.status}
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </h5>
-                                    <h5>
-                                        <b>Product age: </b> &nbsp; 
-                                        
-                                        <c:choose>
-                                            <c:when test="${empty item.age or item.age eq '0'}">
-                                                No specified.
-                                            </c:when>    
-                                            <c:otherwise>
-                                                ${item.age}
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </h5> <br>
-                                    <p>
-                                        <b>Product description: </b> &nbsp;
-                                        
-                                        <c:choose>
-                                            <c:when test="${empty item.description}">
-                                                No specified.
-                                            </c:when>    
-                                            <c:otherwise>
-                                                ${item.description}
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </p>   
-                                </c:forEach>
                             </div>
                         </div>
                         
@@ -187,11 +163,11 @@
                                 <form method="POST" action="LogIn">
                                     <div class="col-md-12 col-sm-12">
                                         <div class="form-group">
-                                            <input type="text" id="enterEmail" class="form-control" required="required" placeholder="Your e-mail">
+                                            <input type="text" name="enterEmail" id="enterEmail" class="form-control" required="required" placeholder="Your e-mail">
                                         </div>
 
                                         <div class="form-group">
-                                            <input type="password" name="pass" id="enterPass" required="required" class="form-control" placeholder="Your password">
+                                            <input type="password" name="enterPass" id="enterPass" required="required" class="form-control" placeholder="Your password">
                                         </div>
                                         <div class="form-group">
                                             <input type="submit" id="enter-site" class="btn btn-success" value="Enter site"/>
@@ -220,11 +196,10 @@
                 </div>
             </div>
         </div>
-        
+      
         <div class="for-full-back " id="footer">
             The best second-hand shop in the World Wide Web. &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &copy; jprecreativo | All Right Reserved
         </div>
-        
     </body>
 </html>
 

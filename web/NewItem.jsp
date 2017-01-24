@@ -51,7 +51,7 @@
 
                             <c:if test="${sessionScope.email != null}">
                                 <li><a href="/SecondChance/NewItem.jsp">NEW ITEM</a></li>
-                                <li><a href="#contact-sec">FAVOURITE ITEMS</a></li>
+                                <li><a href="/SecondChance/FavouriteItems">FAVOURITE ITEMS</a></li>
                             </c:if>
 
                             <c:if test="${sessionScope.email == null}">    
@@ -102,7 +102,7 @@
                                 <label for="ZC">Zip code: </label> &nbsp;
                                 <input type="text" pattern="[0-9]{*}" id="ZC" name="ZC" placeholder="Zip or postal code"/> <br> <br> 
                                 <label for="age">Age: </label> &nbsp;
-                                <input type="text" pattern="[0-9]{*}" id="age" name="age" placeholder="Approximate age (years)"/> <br> <br>
+                                <input type="number" min="0" value="0" id="age" name="age" placeholder="Approximate years"/> <br> <br>
                                 <input type="submit" id="submitNewItem" name="submitNewItem" value="Send" /> <br> <br>
                             </form>
                         </div>
@@ -129,5 +129,11 @@
         <div class="for-full-back " id="footer">
             The best second-hand shop in the World Wide Web. &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &copy; jprecreativo | All Right Reserved
         </div>
+        <script>
+            document.getElementById("age").onkeypress = function(evt) {
+                
+                evt.preventDefault();
+            };
+        </script>
     </body>
 </html>

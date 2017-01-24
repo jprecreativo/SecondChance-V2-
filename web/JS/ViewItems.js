@@ -26,7 +26,8 @@ filterButton.onclick = function() {
         var zipCode = document.getElementById("zipCode");
         var url = "ViewItems" + "?cat=" + encodeURIComponent(cat.value) + 
                                 "&price=" + encodeURIComponent(price.value) +
-                                "&zipCode=" + encodeURIComponent(zipCode.value);
+                                "&zipCode=" + encodeURIComponent(zipCode.value) +
+                                "&isAJAX=" + encodeURIComponent("TRUE");
         
         xhr.onreadystatechange = getResponse;
         xhr.open("GET", url);

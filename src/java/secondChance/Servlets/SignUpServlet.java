@@ -6,6 +6,7 @@
 package secondChance.Servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
@@ -75,6 +76,8 @@ public class SignUpServlet extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("fullEmail", request.getParameter("email"));
             session.setAttribute("email", userName.nextToken());
+            List<String> favourites = new ArrayList();
+            session.setAttribute("favourites", favourites);
         }
         
         RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");

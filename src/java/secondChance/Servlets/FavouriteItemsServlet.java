@@ -22,8 +22,8 @@ import secondChance.Entities.ITEMS;
  * @author jose_
  */
 
-@WebServlet(name = "ViewItemsServlet", urlPatterns = {"/ViewItems/*"})
-public class ViewItemsServlet extends HttpServlet 
+@WebServlet(name = "FavouriteItemsServlet", urlPatterns = {"/FavouriteItems/*"})
+public class FavouriteItemsServlet extends HttpServlet 
 {
     @PersistenceContext(unitName = "SecondChancePU")
     private EntityManager em;
