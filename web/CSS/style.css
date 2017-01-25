@@ -94,6 +94,13 @@ th, td
 
 }
 
+#userDetails
+{
+    margin-top: -25%;
+    margin-bottom: 8%;
+    padding-left: 2%;
+}
+
 .help-tip p{	/* The tooltip */
 	display: none;
 	text-align: left;

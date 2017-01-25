@@ -66,7 +66,9 @@ public class NewItemServlet extends HttpServlet {
             if(!"".equals(request.getParameter("ZC")))
                 newItem.setZC(Integer.parseInt(request.getParameter("ZC")));
             
-            newItem.setAge(Integer.parseInt(request.getParameter("age")));
+            if(!"".equals(request.getParameter("age")))
+                newItem.setAge(Integer.parseInt(request.getParameter("age")));
+            
             newItem.setOwner(this.getSessionUser(request.getSession()));
             
             this.persist(newItem);

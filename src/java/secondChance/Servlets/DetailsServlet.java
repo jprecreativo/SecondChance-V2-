@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import secondChance.Entities.ITEMS;
+import secondChance.Entities.USER_DATA;
 
 /**
  *
@@ -54,6 +55,8 @@ public class DetailsServlet extends HttpServlet {
             Query query = em.createQuery(idQuery);
             List <ITEMS> li = query.getResultList();
             request.setAttribute("items", li);
+            USER_DATA itemOwner = li.get(0).getOwner();
+            request.setAttribute("itemOwner", itemOwner);
             RequestDispatcher rd = request.getRequestDispatcher("/ViewDetails.jsp");
             rd.forward(request, response);
         }

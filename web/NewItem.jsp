@@ -89,7 +89,7 @@
                                 <label for="name">Name: </label> &nbsp;
                                 <input type="text" id="name" name="name" placeholder="Item name here" required/> <br> <br>
                                 <label for="price">Price: </label> &nbsp;
-                                <input type="text" pattern="[0-9]{*}" id="price" name="price" placeholder="Type a fair price" required/> <br> <br>
+                                <input type="text" pattern="[0-9]+$" id="price" name="price" placeholder="Type a fair price" required/> <br> <br>
                                 <label for="stateSelect">State: </label> &nbsp;
                                 <select id="stateSelect" name="stateSelect" size="1">
                                     <option>NO SPECIFIED</option>

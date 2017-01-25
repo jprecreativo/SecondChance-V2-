@@ -23,7 +23,7 @@ refreshButton.onclick = function() {
     numCaptcha = reloadCaptcha();
 };
 
-var errorMessage = "";
+var errorMessage;
 
 function validateEmail(email)
 {
@@ -142,6 +142,8 @@ function validateCaptcha(captcha)
 
 function validate()
 {
+    errorMessage = "";
+    
     validateEmail(document.getElementById("emailValue").value);
     validatePassword(document.getElementById("pass").value, document.getElementById("passConfirmation").value);
     

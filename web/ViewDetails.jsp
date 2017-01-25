@@ -186,7 +186,58 @@
                                 </c:forEach>
                             </div>
                         </div>
-
+                        <div id="userDetails">
+                            <h1>Seller details</h1>
+                            <h5 style="margin-top: 3%;"><b>Email:</b> &nbsp; ${requestScope.itemOwner.email}</h5>
+                            <c:choose>
+                                <c:when test="${requestScope.itemOwner.name != null}">
+                                    <h5><b>Name:</b> &nbsp; ${requestScope.itemOwner.name}</h5>
+                                </c:when>    
+                                <c:otherwise>
+                                    <h5><b>Name:</b> &nbsp; Not specified.</h5>
+                                </c:otherwise>
+                            </c:choose>
+                            <c:choose>
+                                <c:when test="${requestScope.itemOwner.address != null}">
+                                    <h5><b>Address:</b> &nbsp; ${requestScope.itemOwner.address}</h5>
+                                </c:when>    
+                                <c:otherwise>
+                                    <h5><b>Address:</b> &nbsp; Not specified.</h5>
+                                </c:otherwise>
+                            </c:choose>
+                            <c:choose>
+                                <c:when test="${requestScope.itemOwner.ZC != 0}">
+                                    <h5><b>Zip/Postal code:</b> &nbsp; ${requestScope.itemOwner.ZC}</h5>
+                                </c:when>    
+                                <c:otherwise>
+                                    <h5><b>Zip/Postal code:</b> &nbsp; Not specified.</h5>
+                                </c:otherwise>
+                            </c:choose>
+                            <c:choose>
+                                <c:when test="${requestScope.itemOwner.phoneNumber != 0}">
+                                    <h5><b>Phone number:</b> &nbsp; ${requestScope.itemOwner.phoneNumber}</h5>
+                                </c:when>    
+                                <c:otherwise>
+                                    <h5><b>Phone number:</b> &nbsp; Not specified.</h5>
+                                </c:otherwise>
+                            </c:choose>
+                            <c:choose>
+                                <c:when test="${requestScope.itemOwner.TW != null}">
+                                    <h5><b>Twitter:</b> &nbsp; ${requestScope.itemOwner.TW}</h5>
+                                </c:when>    
+                                <c:otherwise>
+                                    <h5><b>Twitter:</b> &nbsp; Not specified.</h5>
+                                </c:otherwise>
+                            </c:choose>
+                            <c:choose>
+                                <c:when test="${requestScope.itemOwner.FB != null}">
+                                    <h5><b>Facebook:</b> &nbsp; ${requestScope.itemOwner.FB}</h5>
+                                </c:when>    
+                                <c:otherwise>
+                                    <h5><b>Facebook:</b> &nbsp; Not specified.</h5>
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
                     </div>
                     <c:if test="${sessionScope.email == null}">
                         <div class="col-md-3 col-sm-3">
