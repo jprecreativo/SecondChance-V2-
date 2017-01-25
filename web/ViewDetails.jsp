@@ -238,6 +238,29 @@
                                 </c:otherwise>
                             </c:choose>
                         </div>
+                        <div id="addComent">
+                            <h1 id="titleAddComment">ADD A COMMENT</h1>
+                            <form method="POST" action="Comment">
+                                <label for="visibility"><b>Visibility: </b> &nbsp; </label>
+                                <select name="visibility" id="visibility">
+                                    <option>PUBLIC</option>
+                                    <option>PRIVATE</option>
+                                    <option>SELLER</option>
+                                </select>
+                                <div style="margin-top: 63%" class="help-tip">
+                                    <p>
+                                        Public: Everyone see the comment. <br>
+                                        Private: Only I see the comment. <br>
+                                        Seller: Seller's item and I see the comment.
+                                    </p>
+                                </div> <br> <br>
+                                <textarea style="resize: none" rows="6" cols="40" name="textComment" id="textComment" placeholder="Type your comment here..."></textarea>
+                                <br> <br> <input style="margin-left: 25%;" type="submit" class="btn-success" value="Comment" />
+                                <c:forEach var="item" items="${requestScope.items}">
+                                    <input type="text" name="itemID" style="visibility: hidden;" value="${item.id}" />
+                                </c:forEach>
+                            </form>
+                        </div>
                     </div>
                     <c:if test="${sessionScope.email == null}">
                         <div class="col-md-3 col-sm-3">

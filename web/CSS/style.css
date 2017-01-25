@@ -99,6 +99,12 @@ th, td
     margin-top: -25%;
     margin-bottom: 8%;
     padding-left: 2%;
+    float: left;
+}
+
+#addComent
+{
+    margin-left: 50%;
 }
 
 .help-tip p{	/* The tooltip */
@@ -156,11 +162,16 @@ th, td
 	100% { opacity:100%; }
 }
 
+#titleAddComment
+{
+    margin-top: -11px;
+}
+
 h1, h2, h3, h4, h5, h6 {
    font-family: 'Open Sans', sans-serif;
 }
 
-h1 {
+h1:not(#titleAddComment) {
     margin-top:200px;
     text-transform:uppercase;
    
