@@ -17,6 +17,7 @@
 body {
           font-family: 'Open Sans', sans-serif;
     font-size:14px;
+    
 }
 
 .forms
@@ -50,6 +51,12 @@ body {
     clear: both;
     margin-left: 2%;
     margin-bottom: 10%;
+}
+
+table
+{
+    background-color: rgba(0, 255, 41, 0.10);
+    color: darkgreen;
 }
 
 th, td

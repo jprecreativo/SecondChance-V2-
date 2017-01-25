@@ -4,6 +4,18 @@
  */
 
 @font-face {
+	font-family: 'PokemonGB';
+	src: url('./PokemonGB.eot');
+	src: local('PokemonGB'), url('./PokemonGB.woff') format('woff'), url('./PokemonGB.ttf') format('truetype');
+}
+/* use this class to attach this font to any element i.e. <p class="fontsforweb_fontid_63205">Text with this font applied</p> */
+td {
+	font-family: 'PokemonGB' !important;
+}
+
+/* Font downloaded from FontsForWeb.com */
+
+@font-face {
     font-family: 'FontAwesome';
     src: url('../fonts/fontawesome-webfontba72.eot?v=4.0.3');
     src: url('../fonts/fontawesome-webfontd41d.eot?#iefix&v=4.0.3') format('embedded-opentype'),url('../fonts/fontawesome-webfontba72.woff?v=4.0.3') format('woff'),url('../fonts/fontawesome-webfontba72.ttf?v=4.0.3') format('truetype'),url('../fonts/fontawesome-webfontba72.svg?v=4.0.3#fontawesomeregular') format('svg');
