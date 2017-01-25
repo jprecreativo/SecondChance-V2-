@@ -167,7 +167,7 @@
                                                 No specified.
                                             </c:when>    
                                             <c:otherwise>
-                                                ${item.age}
+                                                ${item.age} year(s).
                                             </c:otherwise>
                                         </c:choose>
                                     </h5> <br>
@@ -238,28 +238,47 @@
                                 </c:otherwise>
                             </c:choose>
                         </div>
-                        <div id="addComent">
-                            <h1 id="titleAddComment">ADD A COMMENT</h1>
-                            <form method="POST" action="Comment">
-                                <label for="visibility"><b>Visibility: </b> &nbsp; </label>
-                                <select name="visibility" id="visibility">
-                                    <option>PUBLIC</option>
-                                    <option>PRIVATE</option>
-                                    <option>SELLER</option>
-                                </select>
-                                <div style="margin-top: 63%" class="help-tip">
-                                    <p>
-                                        Public: Everyone see the comment. <br>
-                                        Private: Only I see the comment. <br>
-                                        Seller: Seller's item and I see the comment.
-                                    </p>
-                                </div> <br> <br>
-                                <textarea style="resize: none" rows="6" cols="40" name="textComment" id="textComment" placeholder="Type your comment here..."></textarea>
-                                <br> <br> <input style="margin-left: 25%;" type="submit" class="btn-success" value="Comment" />
-                                <c:forEach var="item" items="${requestScope.items}">
-                                    <input type="text" name="itemID" style="visibility: hidden;" value="${item.id}" />
-                                </c:forEach>
-                            </form>
+                        <c:if test="${sessionScope.email != null}">
+                            <div id="addComent">
+                                <h1 class="titleComment">ADD A COMMENT</h1>
+                                <form method="POST" action="Comment">
+                                    <label for="visibility"><b>Visibility: </b> &nbsp; </label>
+                                    <select name="visibility" id="visibility">
+                                        <option>PUBLIC</option>
+                                        <option>PRIVATE</option>
+                                        <option>SELLER</option>
+                                    </select>
+                                    <div style="margin-top: 63%" class="help-tip">
+                                        <p>
+                                            Public: Everyone see the comment. <br>
+                                            Private: Only you see the comment. <br>
+                                            Seller: Seller's item and you see the comment.
+                                        </p>
+                                    </div> <br> <br>
+                                    <textarea style="resize: none" rows="6" cols="40" name="textComment" id="textComment" placeholder="Type your comment here..."></textarea>
+                                    <br> <br> <input style="margin-left: 25%;" type="submit" class="btn-success" value="Comment" />
+                                    <c:forEach var="item" items="${requestScope.items}">
+                                        <input type="text" name="itemID" style="visibility: hidden;" value="${item.id}" />
+                                    </c:forEach>
+                                </form>
+                            </div>
+                        </c:if>
+                        <div id="comments">
+                            <h1 class="titleComment">COMMENTS</h1>
+                            <c:forEach var="comment" items="${requestScope.itemComments}">
+                                <c:if test="${comment.visibility == 'PUBLIC'}">
+                                    <p><b>${comment.owner.email}: </b> &nbsp; ${comment.text}</p>
+                                </c:if>
+                                <c:if test="${comment.visibility == 'PRIVATE' and sessionScope.fullEmail == comment.owner.email}">
+                                   <p><b>${comment.owner.email}: </b> &nbsp; ${comment.text}</p>
+                                </c:if>
+                                <c:if test="${comment.visibility == 'SELLER' and sessionScope.fullEmail == comment.owner.email}">
+                                    <p><b>${comment.owner.email}: </b> &nbsp; ${comment.text}</p>
+                                </c:if>
+                                <c:if test="${comment.visibility == 'SELLER' and sessionScope.fullEmail == requestScope.itemOwner.email}">
+                                    <p><b>${comment.owner.email}: </b> &nbsp; ${comment.text}</p>
+                                </c:if>
+                            </c:forEach>
                         </div>
                     </div>
                     <c:if test="${sessionScope.email == null}">
@@ -269,11 +288,11 @@
                                 <form method="POST" action="LogIn">
                                     <div class="col-md-12 col-sm-12">
                                         <div class="form-group">
-                                            <input type="text" id="enterEmail" class="form-control" required="required" placeholder="Your e-mail">
+                                            <input type="text" name="enterEmail" id="enterEmail" class="form-control" required="required" placeholder="Your e-mail">
                                         </div>
 
                                         <div class="form-group">
-                                            <input type="password" name="pass" id="enterPass" required="required" class="form-control" placeholder="Your password">
+                                            <input type="password" name="enterPass" id="enterPass" required="required" class="form-control" placeholder="Your password">
                                         </div>
                                         <div class="form-group">
                                             <input type="submit" id="enter-site" class="btn btn-success" value="Enter site"/>

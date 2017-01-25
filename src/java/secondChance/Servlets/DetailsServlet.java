@@ -19,6 +19,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import secondChance.Entities.COMMENTS;
 import secondChance.Entities.ITEMS;
 import secondChance.Entities.USER_DATA;
 
@@ -57,6 +58,10 @@ public class DetailsServlet extends HttpServlet {
             request.setAttribute("items", li);
             USER_DATA itemOwner = li.get(0).getOwner();
             request.setAttribute("itemOwner", itemOwner);
+            String commentsQuery = "SELECT c FROM COMMENTS c WHERE c.item.id = " + itemID;
+            query = em.createQuery(commentsQuery);
+            List<COMMENTS> itemComments = query.getResultList();
+            request.setAttribute("itemComments", itemComments);
             RequestDispatcher rd = request.getRequestDispatcher("/ViewDetails.jsp");
             rd.forward(request, response);
         }
